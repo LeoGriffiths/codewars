@@ -1,14 +1,21 @@
-printMe = 0
+printMe = 1
+
+def printGrid(row, col, rlen, clen):
+    for r in xrange( int(row), int(row)+int(rlen) ):
+        for c in xrange(int(col)+rpos,int(col)+int(clen)):
+            print("{:03d} ".format(c^r), end="")
+        print()
+
 
 def countIt(row,col,rlen,clen,l,t):
         
     if printMe: print("countIt - row: {}, col: {}, rlen: {}, clen: {}, ".format( row,col, rlen, clen) )
     total=0
     rpos = 0
-    for r in range( int(row), int(row)+int(rlen) ):
+    for r in xrange( int(row), int(row)+int(rlen) ):
         i=0
         cpos = rpos
-        for c in range(int(col)+rpos,int(col)+int(clen)):
+        for c in xrange(int(col)+rpos,int(col)+int(clen)):
             xor = (c^r)
             if xor > l:
                 total += (xor - l)%t
@@ -75,7 +82,8 @@ def calc_age(row, col, rlen ,clen, l, t, lvl):
         if printMe: print( "{} swap - r={}, c={}, rlen={}, clen: {}".format(" "*lvl, row,col,rlen,clen))
 
     if (rlen==clen and rlen%16==0):
-        return countLines(row,col,rlen,clen,l,t)
+        cl = countLines(row,col,rlen,clen,l,t)
+        return cl
     
     if rlen <= 8 and clen <= 8:
         return countIt(row,col,rlen,clen,l,t)
@@ -87,7 +95,8 @@ def calc_age(row, col, rlen ,clen, l, t, lvl):
     # if clen (long side) is a power of 2
     if clen==cnt:
 #         if printMe: print("++++++++++ ccnt: {}".format(ccnt))
-        return countLines(row,col,rlen,clen,l,t)
+        cl = countLines(row,col,rlen,clen,l,t)
+        return cl
     
     clong = cnt/2
     
@@ -139,7 +148,7 @@ def elder_age(m,n,l,t):
     
     total = calc_age(0,0,rows,cols,l,t,0)
     
-#     printGrid(m,n,l,t)
+    # printGrid(m,n,l,t)
     print ("total: {}, total%t: {}".format(total, total%t))
 
     return total%t
